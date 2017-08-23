@@ -2,15 +2,27 @@ package main
 
 import (
 	"net/http"
-	"io"
 	"log"
+	"encoding/json"
+	"strconv"
+	"io"
+	"fmt"
 )
 
+type User struct {
+	ID   int  `json:"id"`
+	Name string `json:"name"`
+}
+
 func HelloServer(w http.ResponseWriter, req *http.Request) {
-	io.WriteString(w, "hello, world!\n")
-	//var id = req.Form.Get("id")
-	var id = req.URL.Query()["id"][0]
-	io.WriteString(w,"传入参数："+ id)
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	var idSt = req.URL.Query()["id"][0]
+	var id, _ = strconv.Atoi(idSt)
+
+	var user = User{id, "zym"}
+	var body, _ = json.Marshal(user)
+	fmt.Println(string(body))
+	io.WriteString(w, string(body))
 }
 func main() {
 	http.HandleFunc("/hello", HelloServer)
