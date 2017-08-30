@@ -3,7 +3,6 @@ package main
 import (
 	"time"
 	"fmt"
-	"net/http"
 )
 
 func main() {
@@ -31,8 +30,11 @@ func main() {
 	newNow = now.Add(day) //时间加上一天 （单位纳秒）
 	fmt.Println(newNow)
 
-	newNow = now.Add(-day)//时间加上减天 （单位纳秒）
-	fmt.Println(newNow)
+	newNow1 := now.Add(-day)//时间加上减天 （单位纳秒）
+	fmt.Println(newNow1)
+
+	sub := newNow.Sub(newNow1) //减去一个时间，算差值
+	fmt.Println(sub) //48h0m0s 相差两天
 
 	time.Sleep(time.Second * 5) //当前线程睡5s
 	fmt.Println("结束")
